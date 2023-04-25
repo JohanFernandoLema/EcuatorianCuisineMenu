@@ -76,8 +76,33 @@ const menu =
 
 const sectionCenter = document.querySelector('.section-center');
 
+const filterBtns = document.querySelectorAll('.filter-btn');
+
+//load items
 window.addEventListener('DOMContentLoaded', function(){
     displayMenuItems(menu);
+});
+
+//filter items
+filterBtns.forEach(function(btn){
+    btn.addEventListener("click", function(e){
+        //currentTarget in order to triger the button that is being clicked
+
+        //dataset => the way dataset works is through a html property ("data-id") in this case. it is important that "data" has the "-" in front of it "id is just the name, it can be whatever we want to assign"
+        const category = e.currentTarget.dataset.id;
+        const menuCategory = menu.filter(function(menuItem){
+            if(menuItem.category === category){
+            return menuItem
+            }
+        });
+        // console.log(menuCategory);
+        if(category === 'all'){
+            displayMenuItems(menu);
+        }
+        else{
+            displayMenuItems(menuCategory);
+        }
+    });
 });
 
 function displayMenuItems(menuItems){
