@@ -5,7 +5,7 @@ const menu =
         title: "encebollado",
         category: "lunch",
         price:14.99,
-        img: "./Assets/images/./Assets/images/encebollado.png",
+        img: "./Assets/images/encebollado.png",
         desc: "soup with shredded fish, sliced onions, yuca, pop corn and plantain chips "
     },
     {
@@ -73,3 +73,29 @@ const menu =
         desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
     },
 ]
+
+const sectionCenter = document.querySelector('.section-center');
+
+window.addEventListener('DOMContentLoaded', function(){
+    displayMenuItems(menu);
+});
+
+function displayMenuItems(menuItems){
+        // Map function in order to help us to modified our array
+        let displayMenu = menuItems.map(function(item){
+            return `<article class="menu-item">
+            <img src=${item.img} alt=${item.title} class="photo">
+            <div class="item-info">
+                <header>
+                    <h4>${item.title}</h4>
+                    <h4 class="price">CAD${item.price}</h4>
+                </header>
+                <p class="item-text">${item.desc}</p>
+            </div>
+        </article>`
+        });
+        // We join our array after each other
+        displayMenu = displayMenu.join("")
+        //We retrieve our content inside our html parent element.
+        sectionCenter.innerHTML = displayMenu;
+}
