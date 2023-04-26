@@ -1,3 +1,7 @@
+//get only unique categories
+////iterate over categories (return buttons)
+//make sure to select button when they are available
+
 const menu = 
 [
     {
@@ -43,7 +47,7 @@ const menu =
     {
         id: 6,
         title: "bacon overflow",
-        category: "shake",
+        category: "shakes",
         price: 8.99,
         img: "./Assets/images/fanesca.jpeg",
         desc: `carry jianbing normcore freegan. Viral single-origin coffee live-edge, pork belly cloud bread iceland put a bird `,
@@ -76,33 +80,12 @@ const menu =
 
 const sectionCenter = document.querySelector('.section-center');
 
-const filterBtns = document.querySelectorAll('.filter-btn');
+const container = document.querySelector('.btn-container');
 
 //load items
 window.addEventListener('DOMContentLoaded', function(){
     displayMenuItems(menu);
-});
-
-//filter items
-filterBtns.forEach(function(btn){
-    btn.addEventListener("click", function(e){
-        //currentTarget in order to triger the button that is being clicked
-
-        //dataset => the way dataset works is through a html property ("data-id") in this case. it is important that "data" has the "-" in front of it "id is just the name, it can be whatever we want to assign"
-        const category = e.currentTarget.dataset.id;
-        const menuCategory = menu.filter(function(menuItem){
-            if(menuItem.category === category){
-            return menuItem
-            }
-        });
-        // console.log(menuCategory);
-        if(category === 'all'){
-            displayMenuItems(menu);
-        }
-        else{
-            displayMenuItems(menuCategory);
-        }
-    });
+    displayMenuBtns();
 });
 
 function displayMenuItems(menuItems){
@@ -123,4 +106,41 @@ function displayMenuItems(menuItems){
         displayMenu = displayMenu.join("")
         //We retrieve our content inside our html parent element.
         sectionCenter.innerHTML = displayMenu;
+}
+
+function displayMenuBtns(){
+    const categories = menu.reduce(function(values, item){
+        if(!values.includes(item.category)){
+            values.push(item.category);
+        }
+        return values        
+    },['all']);
+    
+    const categoryBtns = categories.map(function(category){
+        return `<button class="filter-btn" type="button" data-id=${category}>${category}</button>`
+    }).join("")
+    container.innerHTML = categoryBtns;
+    const filterBtns = document.querySelectorAll('.filter-btn');
+
+    //filter items
+    filterBtns.forEach(function(btn){
+    btn.addEventListener("click", function(e){
+        //currentTarget in order to triger the button that is being clicked
+
+        //dataset => the way dataset works is through a html property ("data-id") in this case. it is important that "data" has the "-" in front of it "id is just the name, it can be whatever we want to assign"
+        const category = e.currentTarget.dataset.id;
+        const menuCategory = menu.filter(function(menuItem){
+            if(menuItem.category === category){
+            return menuItem
+            }
+        });
+        // console.log(menuCategory);
+        if(category === 'all'){
+            displayMenuItems(menu);
+        }
+        else{
+            displayMenuItems(menuCategory);
+        }
+    });
+});
 }
